@@ -13,6 +13,7 @@ import { LOGIN_OR_REGISTER } from "../../api/queriesandmutations";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorComponent from "./Error";
+import useUserStore from "../../state/userStore";
 
 export default function LoginOrRegisterForm() {
   const [login, { loading, error }] = useMutation(LOGIN_OR_REGISTER);
@@ -32,11 +33,12 @@ export default function LoginOrRegisterForm() {
     resolver: zodResolver(loginSchema),
   });
 
+  const setToken = useUserStore((state) => state.setToken);
   const onSubmit: SubmitHandler<Login> = async ({ email, password }) => {
     const token = (await login({ variables: { email, password } })).data
       ?.loginOrRegister;
     if (token) {
-      localStorage.setItem("token", token);
+      setToken(token);
     }
   };
 
