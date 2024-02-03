@@ -15,6 +15,6 @@ if (root) {
           <App />
         </ApolloProvider>
       </Theme>
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 }

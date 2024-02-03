@@ -15,6 +15,7 @@ Not all Web APIs are implemented in all platforms and browsers. Below is the com
 | Filesystem Access  | [File System API](https://developer.mozilla.org/en-US/docs/Web/API/File_System_API)                             | ❕  |   ❕    |
 | Offline Usage      | [Cache API](https://developer.mozilla.org/en-US/docs/Web/API/Cache)                                             | ✅  |   ✅    |
 | Local Data Storage | [IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)                                 | ✅  |   ✅    |
+| Biometric Auth     | [Web Authentication API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API)               | ❕  |   ❕    |
 
 ## Polyfills
 
@@ -26,18 +27,19 @@ There are polyfills available for some of the Web APIs which is in scope of this
 | [MediaStream Image Capture API](https://github.com/GoogleChromeLabs/imagecapture-polyfill) |   iOS   |                                                     |
 | Notifications API                                                                          | Android | Polyfill isn't needed since it's mostly implemented |
 | File System API                                                                            |  Both   | Polyfill isn't needed since it's mostly implemented |
+| Biometric Auth                                                                             |  Both   | Polyfill isn't needed since it's mostly implemented |
 
 ## Implementation in Practice
 
-| Functionality      | Implemented in | Notes                                                                                                 |
-| ------------------ | :------------: | ----------------------------------------------------------------------------------------------------- |
-| Notifications      |  example.tsx   |                                                                                                       |
-| Gyroscope          |                |                                                                                                       |
-| Geolocation        |                |                                                                                                       |
-| Camera             |                |                                                                                                       |
-| Filesystem Access  |                |                                                                                                       |
-| Offline Usage      |                |                                                                                                       |
-| Local Data Storage |                | IndexedDB is a low level API but there is a [wrapper](https://github.com/jakearchibald/idb) available |
+| Functionality      |                 Implemented in                 | Notes                                                                                                 |
+| ------------------ | :--------------------------------------------: | ----------------------------------------------------------------------------------------------------- |
+| Notifications      |                                                |                                                                                                       |
+| Gyroscope          |                                                |                                                                                                       |
+| Geolocation        |                                                |                                                                                                       |
+| Camera             |                                                |                                                                                                       |
+| Filesystem Access  |                                                |                                                                                                       |
+| Offline Usage      |                                                |                                                                                                       |
+| Local Data Storage | [idbUtils.ts](/frontend/src/utils/idbUtils.ts) | IndexedDB is a low level API but there is a [wrapper](https://github.com/jakearchibald/idb) available |
 
 ## Helpful Articles
 
