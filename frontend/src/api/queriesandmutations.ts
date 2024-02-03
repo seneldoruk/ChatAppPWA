@@ -28,13 +28,16 @@ const SEND_MESSAGE: TypedDocumentNode<Message, MutationSendMessageArgs> = gql(
   `,
 );
 
-const GET_MESSAGES: TypedDocumentNode<Message[]> = gql(/* GraphQL */ `
-  query GetMessages {
-    getMessages {
-      content
-      fromEmail
+const GET_MESSAGES: TypedDocumentNode<{ getMessages: Message[] }> = gql(
+  /* GraphQL */ `
+    query GetMessages {
+      getMessages {
+        content
+        fromEmail
+        createdAt
+      }
     }
-  }
-`);
+  `,
+);
 
 export { LOGIN_OR_REGISTER, SEND_MESSAGE, GET_MESSAGES };

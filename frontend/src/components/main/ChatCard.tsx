@@ -22,10 +22,12 @@ export default function ChatCard({ name, email, lastmessage, avatar }: Props) {
           size="5"
           src={avatar}
           radius="full"
-          fallback={name
-            .split(" ")
-            .map((n) => n[0])
-            .join("")}
+          fallback={
+            name
+              .split(" ")
+              .map((n) => n[0])
+              .join("") || "?"
+          }
           mr="1"
         />
         <Box mt={lastmessage ? "-4" : "0"} width="100%">

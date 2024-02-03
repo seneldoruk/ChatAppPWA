@@ -1,10 +1,16 @@
 import { openDB, type IDBPDatabase } from "idb";
 
-type messageInDB = {
+export type messageInDB = {
   sentBy: "me" | "them";
   theirEmail: string;
   message: string;
   timestamp: string | number;
+};
+export type ChatOverView = {
+  email: string;
+  name: string;
+  lastMessage: string;
+  timestamp: string;
 };
 
 async function getDatabase() {
@@ -16,7 +22,6 @@ async function getDatabase() {
       db.createObjectStore("chatOverview", {
         keyPath: "email",
       });
-
       messagesStore.createIndex("theirEmail", "theirEmail", {
         unique: false,
         multiEntry: true,
@@ -25,7 +30,9 @@ async function getDatabase() {
   });
 }
 
-async function getOverviews(db: IDBPDatabase<unknown>) {
+async function getOverviews(
+  db: IDBPDatabase<unknown>,
+): Promise<ChatOverView[]> {
   return await db.getAll("chatOverview");
 }
 async function setNameForEmail(
@@ -40,9 +47,14 @@ async function setLastMessageForEmail(
   db: IDBPDatabase<unknown>,
   email: string,
   lastMessage: string,
-  timestamp: string,
+  timestamp: string | number,
 ) {
-  const overview = db.get("chatOverview", email);
+  const overview = await db.get("chatOverview", email);
+  if (!overview) {
+    const name = "Unknown Contact";
+    await db.add("chatOverview", { email, name, lastMessage, timestamp });
+    return;
+  }
   await db.put("chatOverview", { ...overview, lastMessage, timestamp });
 }
 
@@ -93,5 +105,4 @@ export {
   getMessagesForEmail,
   addMessage,
   getMessagesWithPagingForEmail,
-  type messageInDB,
 };

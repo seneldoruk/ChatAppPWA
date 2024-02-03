@@ -4,7 +4,7 @@ export type sender = "me" | "them";
 export type MessageProps = {
   content: string;
   sender: sender;
-  date: string;
+  date: string | number;
   isLastMessage?: boolean;
 };
 export default function Message({
