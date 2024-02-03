@@ -31,15 +31,16 @@ There are polyfills available for some of the Web APIs which is in scope of this
 
 ## Implementation in Practice
 
-| Functionality      |                 Implemented in                 | Notes                                                                                                 |
-| ------------------ | :--------------------------------------------: | ----------------------------------------------------------------------------------------------------- |
-| Notifications      |                                                |                                                                                                       |
-| Gyroscope          |                                                |                                                                                                       |
-| Geolocation        |                                                |                                                                                                       |
-| Camera             |                                                |                                                                                                       |
-| Filesystem Access  |                                                |                                                                                                       |
-| Offline Usage      |                                                |                                                                                                       |
-| Local Data Storage | [idbUtils.ts](/frontend/src/utils/idbUtils.ts) | IndexedDB is a low level API but there is a [wrapper](https://github.com/jakearchibald/idb) available |
+| Functionality      |                 Implemented in                 | Notes                                                                                                                                                                                                                        |
+| ------------------ | :--------------------------------------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Notifications      |                                                |                                                                                                                                                                                                                              |
+| Gyroscope          |                                                |                                                                                                                                                                                                                              |
+| Geolocation        |                                                |                                                                                                                                                                                                                              |
+| Camera             |                                                |                                                                                                                                                                                                                              |
+| Filesystem Access  |                                                |                                                                                                                                                                                                                              |
+| Offline Usage      |                                                |                                                                                                                                                                                                                              |
+| Local Data Storage | [idbUtils.ts](/frontend/src/utils/idbUtils.ts) | IndexedDB is a low level API but there is a [small wrapper](https://github.com/jakearchibald/idb) and a [SQL-Like API](https://dexie.org/) available. SQL-Like API is heavier, whic is a problem if bundle size is important |
+| Biometric Auth     |                                                |                                                                                                                                                                                                                              |
 
 ## Helpful Articles
 
@@ -47,3 +48,4 @@ IndexedDB
 
 - [Working with IndexedDB](https://web.dev/articles/indexeddb)
 - [IndexedDB (IDB) Overview for Database People](https://chromium.googlesource.com/chromium/src/third_party/+/master/blink/renderer/modules/indexeddb/docs/idb_overview.md)
+- [How is localStorage different from indexedDB?](https://softwareengineering.stackexchange.com/questions/219953/how-is-localstorage-different-from-indexeddb)
