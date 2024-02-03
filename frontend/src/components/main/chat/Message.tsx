@@ -7,7 +7,11 @@ export type MessageProps = {
   date: string;
   isLastMessage?: boolean;
 };
-export default function Message({ content, sender, isLastMessage }: Props) {
+export default function Message({
+  content,
+  sender,
+  isLastMessage,
+}: MessageProps) {
   return (
     <Callout.Root
       color={sender === "me" ? "blue" : "green"}

@@ -81,6 +81,7 @@ const mutations = {
 				throw new GraphQLError((e as Error).message);
 			}
 		}
+		return "";
 	},
 };
 export { queries, mutations, prisma, jwtSecret };

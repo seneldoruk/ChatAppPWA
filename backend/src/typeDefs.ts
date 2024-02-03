@@ -16,7 +16,7 @@ const typeDefs = `#graphql
         getMessages: [Message]
     }
     type Mutation {
-        loginOrRegister(email: String!, password: String!): String
+        loginOrRegister(email: String!, password: String!): String   
         sendMessage(content: String!, toEmail: String!): Message
     }
 `;

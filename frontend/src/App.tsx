@@ -1,5 +1,5 @@
-import MainLayout from "./components/main/MainLayout";
+import LoginOrRegister from "./components/login/LoginOrRegister";
 
 export default function App() {
-  return <MainLayout />;
+  return <LoginOrRegister />;
 }

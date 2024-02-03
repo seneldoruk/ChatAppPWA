@@ -58,6 +58,7 @@ export default function Messages() {
             sender={message.sender}
             isLastMessage={idx === messages.length - 1}
             key={message.date}
+            date={message.date}
           />
         );
       })}

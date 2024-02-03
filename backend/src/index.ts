@@ -9,7 +9,7 @@ import typeDefs from "./typeDefs.js";
 import "dotenv/config";
 import { queries, mutations, jwtSecret, prisma } from "./resolvers.js";
 
-const resolvers: ApolloServerOptionsWithTypeDefs<BaseContext>["resolvers"] = {
+const resolvers = {
 	Query: queries,
 	Mutation: mutations,
 };

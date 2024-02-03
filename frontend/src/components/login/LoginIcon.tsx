@@ -1,5 +1,5 @@
 import { Box, Flex, Heading } from "@radix-ui/themes";
-import ChatAppIcon from "./ChatAppIcon";
+import ChatAppIcon from "../../assets/ChatAppIcon";
 
 export default function LoginIcon() {
   return (

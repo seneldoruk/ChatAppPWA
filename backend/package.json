@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "compile": "tsc",
-    "compile-watch-run": "concurrently \"pnpm compile --watch\" \"nodemon ./dist/index.js\"",
+    "compile-watch-run": "concurrently \"pnpm compile --watch\" \"nodemon ./dist/index.js\" \"pnpm codegen --watch\"",
     "migrate": "prisma migrate deploy",
     "dev": "docker compose up -d && pnpm migrate reset && pnpm compile-watch-run",
-    "test": "cypress run"
+    "test": "cypress run",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +30,9 @@
     "typescript": "^5.3.3"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "5.0.0",
+    "@graphql-codegen/typescript": "4.0.1",
+    "@graphql-codegen/typescript-resolvers": "4.0.1",
     "@types/uuid": "^9.0.8",
     "concurrently": "^8.2.2",
     "cypress": "^13.6.4",
