@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorComponent from "./Error";
 
 export default function LoginOrRegisterForm() {
-  const [login, { data, loading, error }] = useMutation(LOGIN_OR_REGISTER);
+  const [login, { loading, error }] = useMutation(LOGIN_OR_REGISTER);
   const loginSchema = z.object({
     email: z.string().email({ message: "Invalid email" }),
     password: z.string().min(6, { message: "Password too short" }),
@@ -78,6 +78,7 @@ export default function LoginOrRegisterForm() {
             />
           </label>
           <ErrorComponent error={passwordError?.message} />
+          <ErrorComponent error={error && "Invalid password"} />
         </Box>
 
         <Flex mt="6" justify="center" gap="3">
