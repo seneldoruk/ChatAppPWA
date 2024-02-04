@@ -8,17 +8,17 @@ import apolloClient from "./api/client.ts";
 import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
 import { setupNotification } from "./utils/notificationUtils.ts";
 
-async function enableMocking() {
-  if (!import.meta.env.VITE_MOCK) {
-    return;
+async function registerServiceWorker() {
+  if (import.meta.env.PROD) {
+    navigator.serviceWorker.register("/sw.js", { scope: "/" });
   }
 
-  const { worker } = await import("./api/mocks/browser");
-
-  // `worker.start()` returns a Promise that resolves
-  // once the Service Worker is up and ready to intercept requests.
-  return worker.start();
+  if (import.meta.env.VITE_MOCK) {
+    const { worker } = await import("./api/mocks/browser");
+    return worker.start();
+  }
 }
+
 if (import.meta.env.DEV) {
   // Adds messages only in a dev environment
   loadDevMessages();
@@ -28,7 +28,7 @@ if (import.meta.env.DEV) {
 const root = document.getElementById("root");
 setupNotification();
 if (root) {
-  enableMocking().then(() => {
+  registerServiceWorker().then(() => {
     ReactDOM.createRoot(root).render(
       <React.StrictMode>
         <Theme appearance="dark">

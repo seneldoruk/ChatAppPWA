@@ -11,9 +11,11 @@ export function setupNotification() {
 
 export function showNotification(title: string, body: string) {
   if (Notification.permission === "granted") {
-    const notification = new Notification(title, { body });
-    notification.onclick = () => {
-      window.focus();
-    };
+    navigator.serviceWorker.ready.then(function (registration) {
+      registration.showNotification(title, {
+        body: body,
+        icon: "/favicon.svg",
+      });
+    });
   }
 }

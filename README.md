@@ -21,13 +21,13 @@ Not all Web APIs are implemented in all platforms and browsers. Below is the com
 
 There are polyfills available for some of the Web APIs which is in scope of this project to test.
 
-| Polyfill                                                                                   |   For   | Notes                                               |
-| ------------------------------------------------------------------------------------------ | :-----: | --------------------------------------------------- |
-| [Sensor APIs](https://github.com/kenchris/sensor-polyfills)                                |   iOS   |                                                     |
-| [MediaStream Image Capture API](https://github.com/GoogleChromeLabs/imagecapture-polyfill) |   iOS   |                                                     |
-| Notifications API                                                                          | Android | Polyfill isn't needed since it's mostly implemented |
-| File System API                                                                            |  Both   | Polyfill isn't needed since it's mostly implemented |
-| Biometric Auth                                                                             |  Both   | Polyfill isn't needed since it's mostly implemented |
+| Polyfill                                                                                   |   For   | Notes                                                                                                                                                                                                                                                               |
+| ------------------------------------------------------------------------------------------ | :-----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Sensor APIs](https://github.com/kenchris/sensor-polyfills)                                |   iOS   |                                                                                                                                                                                                                                                                     |
+| [MediaStream Image Capture API](https://github.com/GoogleChromeLabs/imagecapture-polyfill) |   iOS   |                                                                                                                                                                                                                                                                     |
+| Notifications API                                                                          | Android | I won't use a polyfill because althouth new Notification() constructor isn't available for Chrome on Android, [notifications can still be sent from a service worker](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification). |
+| File System API                                                                            |  Both   | Polyfill isn't needed since it's mostly implemented                                                                                                                                                                                                                 |
+| Biometric Auth                                                                             |  Both   | Polyfill isn't needed since it's mostly implemented                                                                                                                                                                                                                 |
 
 ## Implementation in Practice
 
