@@ -49,3 +49,8 @@ IndexedDB
 - [Working with IndexedDB](https://web.dev/articles/indexeddb)
 - [IndexedDB (IDB) Overview for Database People](https://chromium.googlesource.com/chromium/src/third_party/+/master/blink/renderer/modules/indexeddb/docs/idb_overview.md)
 - [How is localStorage different from indexedDB?](https://softwareengineering.stackexchange.com/questions/219953/how-is-localstorage-different-from-indexeddb)
+
+PWAs
+
+- [Learn PWA](https://web.dev/learn/pwa/)
+- [Vite PWA](https://vite-pwa-org.netlify.app/guide/)

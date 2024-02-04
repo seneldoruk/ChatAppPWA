@@ -73,6 +73,7 @@ export default function LoginOrRegisterForm() {
             </Text>
             <TextFieldInput
               disabled={loading}
+              autoComplete="current-password"
               type="password"
               variant="classic"
               placeholder="Password"
