@@ -7,6 +7,7 @@ import {
   getMessagesWithPagingForEmail,
 } from "./idbUtils";
 import { v4 as uuid } from "uuid";
+import "fake-indexeddb/auto";
 
 let db: IDBPDatabase<unknown>;
 

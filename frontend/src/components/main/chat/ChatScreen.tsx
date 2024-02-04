@@ -32,7 +32,6 @@ async function putNewMessageInDBAndUpdateState(
     theirEmail: toEmail,
   });
   const messages = await getMessagesWithPagingForEmail(db, toEmail, 0, 10);
-  console.log(messages);
   const mappedMessages = messages
     .map((message) => ({
       content: message.message,
@@ -60,7 +59,6 @@ export default function ChatScreen() {
         putNewMessageInDBAndUpdateState(currentChatEmail!, data.message).then(
           (messages) => {
             setCurrentMessages(messages);
-            console.log("here");
           },
         );
       }

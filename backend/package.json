@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile": "tsc",
-    "compile-watch-run": "concurrently \"pnpm compile --watch\" \"nodemon ./dist/index.js\" \"pnpm codegen --watch\"",
+    "compile-watch-run": "concurrently \"tsc --watch\" \"nodemon ./dist/index.js\" ",
     "migrate": "prisma migrate deploy",
-    "dev": "docker compose up -d && pnpm migrate reset && pnpm compile-watch-run",
-    "test": "cypress run",
+    "dev": "docker compose up -d && bun migrate && bun compile-watch-run",
+    "cy": "cypress run --headless",
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "keywords": [],

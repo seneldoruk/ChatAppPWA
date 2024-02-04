@@ -67,7 +67,6 @@ async function addMessage(db: IDBPDatabase<unknown>, message: messageInDB) {
     message.timestamp,
     message.theirEmail,
   ]);
-  console.log(messageInDB);
   if (!messageInDB) {
     await db.add("messages", message);
   }

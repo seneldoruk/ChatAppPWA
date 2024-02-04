@@ -39,12 +39,4 @@ export default defineConfig({
       },
     }),
   ],
-  test: {
-    include: ["**/*.test.*"],
-    globals: true,
-    browser: {
-      enabled: true,
-      name: "chrome",
-    },
-  },
 });
