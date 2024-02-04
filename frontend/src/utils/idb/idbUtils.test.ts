@@ -38,7 +38,7 @@ test("add 30 messages and paginate by 10", async () => {
     sentBy: i % 2 === 0 ? "me" : "them",
     theirEmail: email,
     message: `Message ${i}`,
-    timestamp: i,
+    timestamp: i > 9 ? i.toString() : "0" + i.toString(),
   }));
 
   //add 10 messages from another email
@@ -47,7 +47,7 @@ test("add 30 messages and paginate by 10", async () => {
     sentBy: i % 2 === 0 ? "me" : "them",
     theirEmail: email2,
     message: `Message ${i}`,
-    timestamp: i,
+    timestamp: i > 9 ? i.toString() : "0" + i.toString(),
   }));
   const mixedMessages = [...messages, ...messages2];
 
@@ -65,37 +65,13 @@ test("add 30 messages and paginate by 10", async () => {
   const page3 = await getMessagesWithPagingForEmail(db, email, 2, 10);
 
   expect(JSON.stringify(page1)).toEqual(
-    JSON.stringify(
-      messages
-        .sort(
-          (message1, message2) =>
-            (message1.timestamp as number) - (message2.timestamp as number),
-        )
-        .slice(20, 30)
-        .reverse(),
-    ),
+    JSON.stringify(messages.sort().slice(20, 30).reverse()),
   );
   expect(JSON.stringify(page2)).toEqual(
-    JSON.stringify(
-      messages
-        .sort(
-          (message1, message2) =>
-            (message1.timestamp as number) - (message2.timestamp as number),
-        )
-        .slice(10, 20)
-        .reverse(),
-    ),
+    JSON.stringify(messages.sort().slice(10, 20).reverse()),
   );
 
   expect(JSON.stringify(page3)).toEqual(
-    JSON.stringify(
-      messages
-        .sort(
-          (message1, message2) =>
-            (message1.timestamp as number) - (message2.timestamp as number),
-        )
-        .slice(0, 10)
-        .reverse(),
-    ),
+    JSON.stringify(messages.sort().slice(0, 10).reverse()),
   );
 });

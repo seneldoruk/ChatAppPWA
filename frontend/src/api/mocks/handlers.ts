@@ -12,13 +12,13 @@ export const handlers = [
       },
       {
         content: `Goodbye, world!  ${new Date().toISOString()}`,
-        createdAt: (Date.now() + 1).toString(),
+        createdAt: (Date.now() + 3).toString(),
         fromEmail: "mock1@mock.com",
         toEmail: "",
       },
       {
         content: `Hello again, world!  ${new Date().toISOString()}`,
-        createdAt: (Date.now() + 1).toString(),
+        createdAt: (Date.now() + 6).toString(),
         fromEmail: "mock2@mock.com",
         toEmail: "",
       },

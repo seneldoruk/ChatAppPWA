@@ -91,6 +91,7 @@ export default function useIndexedDB() {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newMessages]);
 
   return { chatOverviews };

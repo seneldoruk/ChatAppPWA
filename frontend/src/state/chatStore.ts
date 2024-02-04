@@ -8,6 +8,7 @@ type ChatStore = {
   closeChatScreen: () => void;
 
   activeMessages: MessageProps[] | null;
+  setActiveMessages: (messages: MessageProps[]) => void;
 
   chatOverviews: ChatOverView[] | null;
   setChatOverviews: (chatOverviews: ChatOverView[]) => void;

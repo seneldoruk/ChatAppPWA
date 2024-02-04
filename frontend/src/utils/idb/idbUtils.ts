@@ -4,7 +4,7 @@ export type messageInDB = {
   sentBy: "me" | "them";
   theirEmail: string;
   message: string;
-  timestamp: string | number;
+  timestamp: string;
 };
 export type ChatOverView = {
   email: string;
@@ -47,7 +47,7 @@ async function setLastMessageForEmail(
   db: IDBPDatabase<unknown>,
   email: string,
   lastMessage: string,
-  timestamp: string | number,
+  timestamp: string,
 ) {
   const overview = await db.get("chatOverview", email);
   if (!overview) {
@@ -63,7 +63,14 @@ async function getMessagesForEmail(db: IDBPDatabase<unknown>, email: string) {
 }
 
 async function addMessage(db: IDBPDatabase<unknown>, message: messageInDB) {
-  await db.add("messages", message);
+  const messageInDB = await db.get("messages", [
+    message.timestamp,
+    message.theirEmail,
+  ]);
+  console.log(messageInDB);
+  if (!messageInDB) {
+    await db.add("messages", message);
+  }
 }
 
 /*
@@ -85,14 +92,15 @@ async function getMessagesWithPagingForEmail(
   if (cursor && page > 0) {
     await cursor.advance(pageSize * page);
   }
-  while (cursor) {
-    if (count < pageSize) {
-      messages.push(cursor.value);
+  while (cursor && count < pageSize) {
+    const value = await cursor.value;
+    messages.push(value);
+    try {
       await cursor.continue();
-      count++;
-    } else {
+    } catch (e) {
       break;
     }
+    count++;
   }
   return messages;
 }

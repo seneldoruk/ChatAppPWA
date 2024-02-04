@@ -1,4 +1,4 @@
-import { Container, Flex } from "@radix-ui/themes";
+import { Flex } from "@radix-ui/themes";
 import Message, { MessageProps } from "./Message";
 import useChatStore from "../../../state/chatStore";
 import {
@@ -16,11 +16,13 @@ async function getMessagesFromDB(
     0,
     10,
   );
-  return messages.map((message) => ({
-    content: message.message,
-    sender: message.sentBy,
-    date: message.timestamp,
-  }));
+  return messages
+    .map((message) => ({
+      content: message.message,
+      sender: message.sentBy,
+      date: message.timestamp,
+    }))
+    .reverse();
 }
 export default function Messages() {
   const messages = useChatStore((state) => state.activeMessages);
