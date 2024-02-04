@@ -19,7 +19,6 @@ import {
   getDatabase,
   getMessagesWithPagingForEmail,
 } from "../../../utils/idb/idbUtils";
-import { useRef } from "react";
 
 async function putNewMessageInDBAndUpdateState(
   toEmail: string,
@@ -51,7 +50,6 @@ export default function ChatScreen() {
   const currentChatEmail = useChatStore(
     (state) => state.activeChatScreen?.email,
   );
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const setCurrentMessages = useChatStore((state) => state.setActiveMessages);
   const submit = (data: { message: string }) => {

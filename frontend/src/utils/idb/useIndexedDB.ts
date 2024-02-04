@@ -11,6 +11,7 @@ import { GET_MESSAGES } from "../../api/queriesandmutations";
 import { useEffect } from "react";
 import { Message } from "../../api/__generated__/graphql";
 import { MessageProps } from "../../components/main/chat/Message";
+import { showNotification } from "../notificationUtils";
 
 async function getOverviewsFromDB() {
   const db = await getDatabase();
@@ -75,6 +76,10 @@ export default function useIndexedDB() {
       );
       const affectedEmails = new Set<string>(
         newMessages.map((m) => m.fromEmail),
+      );
+      showNotification(
+        "You Have New Messages",
+        `From ${affectedEmails.size} chats!`,
       );
       if (currentChat && affectedEmails.has(currentChat?.email)) {
         getLatestMessagesFromDB(currentChat.email).then((messages) => {

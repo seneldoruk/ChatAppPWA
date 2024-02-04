@@ -6,6 +6,7 @@ import { Theme } from "@radix-ui/themes";
 import { ApolloProvider } from "@apollo/client";
 import apolloClient from "./api/client.ts";
 import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
+import { setupNotification } from "./utils/notificationUtils.ts";
 
 async function enableMocking() {
   if (!import.meta.env.VITE_MOCK) {
@@ -25,6 +26,7 @@ if (import.meta.env.DEV) {
 }
 
 const root = document.getElementById("root");
+setupNotification();
 if (root) {
   enableMocking().then(() => {
     ReactDOM.createRoot(root).render(

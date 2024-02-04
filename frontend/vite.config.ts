@@ -12,12 +12,18 @@ export default defineConfig({
       devOptions: {
         enabled: true,
       },
-      includeAssets: ["favicon.svg", "apple-touch-icon.png", "mask-icon.svg"],
+      workbox: {
+        globPatterns: ["**/*"],
+      },
+      includeAssets: ["**/*"],
       manifest: {
         name: "ChatAppPWA",
         short_name: "ChatAppPWA",
         description: "Chat App as PWA",
         theme_color: "#111113",
+        display: "standalone",
+        scope: "/",
+        start_url: "/",
         icons: [
           {
             src: "favicon.svg",
