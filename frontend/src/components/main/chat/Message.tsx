@@ -1,6 +1,7 @@
 import { FileIcon, GlobeIcon } from "@radix-ui/react-icons";
 import { Callout, Link } from "@radix-ui/themes";
 import { ReactNode } from "react";
+import { CodeBlock, dracula } from "react-code-blocks";
 
 export type sender = "me" | "them";
 export type MessageProps = {
@@ -30,15 +31,20 @@ export default function Message({
       ),
       file: (
         <>
+          <CodeBlock
+            text={parsedMessage.content}
+            language={"typescript"}
+            theme={dracula}
+          />
           <Link
             target="_blank"
             href={URL.createObjectURL(
               new Blob([parsedMessage.content], { type: "text/plain" }),
             )}
-            download={`textfile-${Date.now()}`}
+            download={`codeblock-${Date.now()}`}
             style={{ display: "flex", alignItems: "center", gap: "5px" }}
           >
-            <FileIcon /> Download Text File
+            <FileIcon /> Download File
           </Link>
         </>
       ),

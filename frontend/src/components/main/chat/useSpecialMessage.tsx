@@ -28,7 +28,7 @@ export default function useSpecialMessage({ sendMessageFunction }: Props) {
     );
   }
 
-  async function sendTextFile() {
+  async function sendJSFile() {
     setLoading("file");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const pickerOpts = {
@@ -36,7 +36,7 @@ export default function useSpecialMessage({ sendMessageFunction }: Props) {
         {
           description: "Text Files",
           accept: {
-            "text/plain": [".txt"],
+            "text/plain": [".js", ".ts", ".json", ".jsx", ".tsx"],
           },
         },
       ],
@@ -77,7 +77,7 @@ export default function useSpecialMessage({ sendMessageFunction }: Props) {
     setLoading,
     sendSpecialMessage,
     sendLocation,
-    sendTextFile,
+    sendJSFile,
     sendImage,
   };
 }
