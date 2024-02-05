@@ -1,4 +1,6 @@
-import { Callout } from "@radix-ui/themes";
+import { GlobeIcon } from "@radix-ui/react-icons";
+import { Callout, Link } from "@radix-ui/themes";
+import { ReactNode } from "react";
 
 export type sender = "me" | "them";
 export type MessageProps = {
@@ -12,6 +14,30 @@ export default function Message({
   sender,
   isLastMessage,
 }: MessageProps) {
+  let modifiedContent: ReactNode | string;
+  try {
+    const parsedMessage: { type: string; content: string } =
+      JSON.parse(content);
+    const mesesageMapper: Record<string, ReactNode> = {
+      location: (
+        <Link
+          target="_blank"
+          style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          href={`https://www.google.com/maps/place/${parsedMessage.content}`}
+        >
+          <GlobeIcon /> View Location On Map
+        </Link>
+      ),
+    };
+    if (mesesageMapper[parsedMessage.type]) {
+      modifiedContent = mesesageMapper[parsedMessage.type];
+    }
+  } catch (e) {
+    /* empty */
+  } finally {
+    if (!modifiedContent) modifiedContent = content;
+  }
+
   return (
     <Callout.Root
       color={sender === "me" ? "blue" : "green"}
@@ -27,7 +53,7 @@ export default function Message({
         }
       }}
     >
-      <Callout.Text>{content}</Callout.Text>
+      <Callout.Text>{modifiedContent}</Callout.Text>
     </Callout.Root>
   );
 }

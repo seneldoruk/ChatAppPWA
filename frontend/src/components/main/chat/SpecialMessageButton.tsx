@@ -1,7 +1,21 @@
 import { Popover, Button, Flex } from "@radix-ui/themes";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { GlobeIcon, PlusIcon } from "@radix-ui/react-icons";
+type Props = {
+  disabled: boolean;
+  sendMessageFunction: (data: { message: string }) => void;
+};
 
-export default function SpecialMessageButton({ disabled = false }) {
+export default function SpecialMessageButton({
+  disabled,
+  sendMessageFunction,
+}: Props) {
+  function sendSpecialMessage(messageType: "location" | "", content: string) {
+    const specialMessage = JSON.stringify({
+      type: messageType,
+      content,
+    });
+    sendMessageFunction({ message: specialMessage });
+  }
   return (
     <Popover.Root>
       <Popover.Trigger>
@@ -11,8 +25,17 @@ export default function SpecialMessageButton({ disabled = false }) {
       </Popover.Trigger>
       <Popover.Content>
         <Flex gap="3">
-          <Button variant="outline">
-            <PlusIcon />
+          <Button
+            variant="outline"
+            onClick={() => {
+              navigator.geolocation.getCurrentPosition(
+                ({ coords: { latitude, longitude } }) => {
+                  sendSpecialMessage("location", `${latitude},${longitude}`);
+                },
+              );
+            }}
+          >
+            <GlobeIcon />
           </Button>
           <Button variant="outline">
             <PlusIcon />

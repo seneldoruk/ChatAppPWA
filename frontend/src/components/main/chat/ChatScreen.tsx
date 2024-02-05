@@ -10,7 +10,7 @@ import useChatStore from "../../../state/chatStore";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import Messages from "./Messages";
 import SpecialMessageButton from "./SpecialMessageButton";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { SEND_MESSAGE } from "../../../api/queriesandmutations";
 import { useMutation } from "@apollo/client";
 import ErrorComponent from "../../login/Error";
@@ -111,7 +111,10 @@ export default function ChatScreen() {
               />
             </Box>
             <Flex gap="2">
-              <SpecialMessageButton disabled={loading} />
+              <SpecialMessageButton
+                disabled={loading}
+                sendMessageFunction={submit}
+              />
               <Button
                 radius="full"
                 variant="soft"

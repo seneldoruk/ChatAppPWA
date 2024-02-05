@@ -10,7 +10,7 @@ import { setupNotification } from "./utils/notificationUtils.ts";
 
 async function registerServiceWorker() {
   if (import.meta.env.PROD) {
-    navigator.serviceWorker.register("/sw.js", { scope: "/" });
+    return navigator.serviceWorker.register("/sw.js", { scope: "/" });
   }
 
   if (import.meta.env.VITE_MOCK) {
@@ -26,17 +26,19 @@ if (import.meta.env.DEV) {
 }
 
 const root = document.getElementById("root");
-setupNotification();
-if (root) {
-  registerServiceWorker().then(() => {
-    ReactDOM.createRoot(root).render(
-      <React.StrictMode>
-        <Theme appearance="dark">
-          <ApolloProvider client={apolloClient}>
-            <App />
-          </ApolloProvider>
-        </Theme>
-      </React.StrictMode>,
-    );
-  });
-}
+registerServiceWorker().then(() => {
+  setupNotification();
+  if (root) {
+    registerServiceWorker().then(() => {
+      ReactDOM.createRoot(root).render(
+        <React.StrictMode>
+          <Theme appearance="dark">
+            <ApolloProvider client={apolloClient}>
+              <App />
+            </ApolloProvider>
+          </Theme>
+        </React.StrictMode>,
+      );
+    });
+  }
+});
