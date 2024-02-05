@@ -1,11 +1,11 @@
 import {
-  Card,
-  Text,
   Box,
-  Heading,
-  TextFieldInput,
-  Flex,
   Button,
+  Card,
+  Flex,
+  Heading,
+  Text,
+  TextFieldInput,
 } from "@radix-ui/themes";
 import { useMutation } from "@apollo/client";
 import { z } from "zod";
@@ -60,6 +60,7 @@ export default function LoginOrRegisterForm() {
               variant="classic"
               placeholder="Email"
               disabled={loading}
+              autoComplete="email"
               {...register("email")}
             />
           </label>
