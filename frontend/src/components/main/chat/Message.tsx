@@ -1,4 +1,4 @@
-import { GlobeIcon } from "@radix-ui/react-icons";
+import { FileIcon, GlobeIcon } from "@radix-ui/react-icons";
 import { Callout, Link } from "@radix-ui/themes";
 import { ReactNode } from "react";
 
@@ -28,6 +28,21 @@ export default function Message({
           <GlobeIcon /> View Location On Map
         </Link>
       ),
+      file: (
+        <>
+          <Link
+            target="_blank"
+            href={URL.createObjectURL(
+              new Blob([parsedMessage.content], { type: "text/plain" }),
+            )}
+            download={`textfile-${Date.now()}`}
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <FileIcon /> Download Text File
+          </Link>
+        </>
+      ),
+      image: <></>,
     };
     if (mesesageMapper[parsedMessage.type]) {
       modifiedContent = mesesageMapper[parsedMessage.type];

@@ -10,7 +10,7 @@ import useChatStore from "../../../state/chatStore";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import Messages from "./Messages";
 import SpecialMessageButton from "./SpecialMessageButton";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { SEND_MESSAGE } from "../../../api/queriesandmutations";
 import { useMutation } from "@apollo/client";
 import ErrorComponent from "../../login/Error";
@@ -44,26 +44,30 @@ async function putNewMessageInDBAndUpdateState(
 }
 
 export default function ChatScreen() {
-  const { register, handleSubmit, setValue } = useForm<{ message: string }>({});
+  const { register, handleSubmit, setValue } = useForm<{
+    message: string;
+  }>({});
   const [sendMessage, { loading, error }] = useMutation(SEND_MESSAGE);
   const currentChatEmail = useChatStore(
     (state) => state.activeChatScreen?.email,
   );
 
   const setCurrentMessages = useChatStore((state) => state.setActiveMessages);
-  const submit = (data: { message: string }) => {
-    sendMessage({
+  const submit = async (data: { message: string }) => {
+    await sendMessage({
       variables: { content: data.message, toEmail: currentChatEmail! },
-    }).then(() => {
-      if (!error) {
-        putNewMessageInDBAndUpdateState(currentChatEmail!, data.message).then(
-          (messages) => {
-            setCurrentMessages(messages);
-          },
-        );
-      }
-      setValue("message", "");
     });
+
+    if (!error) {
+      const messages = await putNewMessageInDBAndUpdateState(
+        currentChatEmail!,
+        data.message,
+      );
+      setCurrentMessages(messages);
+      return messages;
+    }
+    setValue("message", "");
+    return Promise.resolve();
   };
 
   const activeChatScreen = useChatStore((state) => state.activeChatScreen);

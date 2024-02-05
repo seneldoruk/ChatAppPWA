@@ -1,21 +1,23 @@
 import { Popover, Button, Flex } from "@radix-ui/themes";
-import { GlobeIcon, PlusIcon } from "@radix-ui/react-icons";
+import {
+  CameraIcon,
+  FileIcon,
+  GlobeIcon,
+  PlusIcon,
+} from "@radix-ui/react-icons";
+import useSpecialMessage from "./useSpecialMessage";
 type Props = {
   disabled: boolean;
-  sendMessageFunction: (data: { message: string }) => void;
+  sendMessageFunction: (data: { message: string }) => Promise<unknown>;
 };
 
 export default function SpecialMessageButton({
   disabled,
   sendMessageFunction,
 }: Props) {
-  function sendSpecialMessage(messageType: "location" | "", content: string) {
-    const specialMessage = JSON.stringify({
-      type: messageType,
-      content,
-    });
-    sendMessageFunction({ message: specialMessage });
-  }
+  const { loading, sendLocation, sendTextFile } = useSpecialMessage({
+    sendMessageFunction,
+  });
   return (
     <Popover.Root>
       <Popover.Trigger>
@@ -26,22 +28,21 @@ export default function SpecialMessageButton({
       <Popover.Content>
         <Flex gap="3">
           <Button
+            disabled={loading === "location"}
             variant="outline"
-            onClick={() => {
-              navigator.geolocation.getCurrentPosition(
-                ({ coords: { latitude, longitude } }) => {
-                  sendSpecialMessage("location", `${latitude},${longitude}`);
-                },
-              );
-            }}
+            onClick={sendLocation}
           >
             <GlobeIcon />
           </Button>
-          <Button variant="outline">
-            <PlusIcon />
+          <Button
+            variant="outline"
+            disabled={loading == "file"}
+            onClick={sendTextFile}
+          >
+            <FileIcon />
           </Button>
-          <Button variant="outline">
-            <PlusIcon />
+          <Button variant="outline" disabled={loading == "camera"}>
+            <CameraIcon />
           </Button>
           <Button variant="outline">
             <PlusIcon />
