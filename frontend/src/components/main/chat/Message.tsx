@@ -42,7 +42,9 @@ export default function Message({
           </Link>
         </>
       ),
-      image: <></>,
+      image: (
+        <img style={{ maxWidth: "100%" }} src={parsedMessage.content}></img>
+      ),
     };
     if (mesesageMapper[parsedMessage.type]) {
       modifiedContent = mesesageMapper[parsedMessage.type];

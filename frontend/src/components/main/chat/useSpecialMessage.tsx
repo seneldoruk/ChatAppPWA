@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 
-type SpecialMessage = "location" | "file" | "camera";
+type SpecialMessage = "location" | "file" | "image";
 type Props = {
   sendMessageFunction: (data: { message: string }) => Promise<unknown>;
 };
@@ -44,6 +44,7 @@ export default function useSpecialMessage({ sendMessageFunction }: Props) {
       multiple: false,
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [fileHandle] = await (window as any)
       .showOpenFilePicker(pickerOpts)
       .catch(() => setLoading(null));
@@ -54,11 +55,29 @@ export default function useSpecialMessage({ sendMessageFunction }: Props) {
     setLoading(null);
   }
 
+  async function sendImage(e: SyntheticEvent<HTMLInputElement>) {
+    setLoading("image");
+    const toBase64 = (file: File) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+      });
+
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return setLoading(null);
+    const base64 = (await toBase64(file)) as string;
+    await sendSpecialMessage("image", base64);
+    setLoading(null);
+  }
+
   return {
     loading,
     setLoading,
     sendSpecialMessage,
     sendLocation,
     sendTextFile,
+    sendImage,
   };
 }

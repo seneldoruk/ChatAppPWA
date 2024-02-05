@@ -15,7 +15,7 @@ export default function SpecialMessageButton({
   disabled,
   sendMessageFunction,
 }: Props) {
-  const { loading, sendLocation, sendTextFile } = useSpecialMessage({
+  const { loading, sendLocation, sendTextFile, sendImage } = useSpecialMessage({
     sendMessageFunction,
   });
   return (
@@ -41,11 +41,21 @@ export default function SpecialMessageButton({
           >
             <FileIcon />
           </Button>
-          <Button variant="outline" disabled={loading == "camera"}>
+          <Button
+            disabled={loading === "image"}
+            variant="outline"
+            onClick={() =>
+              (document.querySelector("#fileinput") as HTMLInputElement).click()
+            }
+          >
+            <input
+              id="fileinput"
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={sendImage}
+            />
             <CameraIcon />
-          </Button>
-          <Button variant="outline">
-            <PlusIcon />
           </Button>
         </Flex>
       </Popover.Content>
