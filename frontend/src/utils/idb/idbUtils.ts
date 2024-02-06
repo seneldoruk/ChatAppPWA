@@ -40,7 +40,7 @@ async function setNameForEmail(
   email: string,
   name: string,
 ) {
-  const overview = db.get("chatOverview", email);
+  const overview = await db.get("chatOverview", email);
   await db.put("chatOverview", { ...overview, name });
 }
 async function setLastMessageForEmail(
