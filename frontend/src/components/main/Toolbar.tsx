@@ -19,7 +19,7 @@ export default function Toolbar() {
   checkPermissionAndListen(closeChat);
   return (
     <Container p="1" mt="4" mb="1" px="3">
-      <Flex justify={"between"}>
+      <Flex justify={"between"} align={"center"}>
         <Flex height="9" align={"center"}>
           <Box width="7">
             <ChatAppIcon />
@@ -40,7 +40,25 @@ export default function Toolbar() {
               Close Chat
             </Button>
           ) : (
-            <NewChat />
+            <Flex direction="column" gap={"2"}>
+              <NewChat />
+              <Button
+                variant="outline"
+                size="3"
+                color="crimson"
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                }}
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  window.location.reload();
+                }}
+              >
+                <Cross1Icon />
+                Logout
+              </Button>
+            </Flex>
           )}
         </Flex>
       </Flex>

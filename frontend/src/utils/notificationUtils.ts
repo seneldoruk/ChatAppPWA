@@ -14,7 +14,7 @@ export function showNotification(title: string, body: string) {
     navigator.serviceWorker.ready.then(function (registration) {
       registration.showNotification(title, {
         body: body,
-        icon: "/favicon.svg",
+        icon: "/favicon.png",
       });
     });
   }

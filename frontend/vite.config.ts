@@ -28,7 +28,7 @@ export default defineConfig({
         start_url: "/",
         icons: [
           {
-            src: "favicon.svg",
+            src: "favicon.png",
             sizes: "192x192",
           },
           {

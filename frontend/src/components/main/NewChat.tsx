@@ -21,7 +21,12 @@ export default function NewChat() {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <Button variant="outline" size="3" disabled={loading}>
+        <Button
+          variant="outline"
+          size="3"
+          disabled={loading}
+          style={{ display: "flex", justifyContent: "flex-start" }}
+        >
           <PlusIcon />
           New Chat
         </Button>
