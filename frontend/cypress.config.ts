@@ -12,5 +12,6 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       return cypressBrowserPermissionsPlugin(on, config);
     },
+    testIsolation: true,
   },
 });

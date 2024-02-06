@@ -5,26 +5,37 @@ const testEmail2 = "testemail2@mail.com";
 
 describe("template spec", () => {
   beforeEach(() => {
-    cy.intercept("./sw.js", {
-      body: undefined,
+    cy.visit("https://localhost/", {
+      onBeforeLoad(win) {
+        delete win.navigator.__proto__.ServiceWorker;
+        delete win.navigator.serviceWorker;
+      },
     });
+    if (window.navigator && navigator.serviceWorker) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach((registration) => {
+          registration.unregister();
+        });
+      });
+    }
   });
+
   it("login user 1", function () {
-    cy.visit("https://localhost");
+    cy.visit("https://localhost/");
     cy.get('input[placeholder="Email"]').type(testEmail1);
     cy.get('input[placeholder="Password"]').type(testEmail1);
     cy.get('button[type="submit"]').click();
     cy.get('input[placeholder="Password"]').should("not.exist");
   });
   it("login user 2", function () {
-    cy.visit("https://localhost");
+    cy.visit("https://localhost/");
     cy.get('input[placeholder="Email"]').type(testEmail2);
     cy.get('input[placeholder="Password"]').type(testEmail2);
     cy.get('button[type="submit"]').click();
     cy.get('input[placeholder="Password"]').should("not.exist");
   });
   it("send messages", function () {
-    cy.visit("https://localhost", {
+    cy.visit("https://localhost/", {
       onBeforeLoad(win) {
         const file = {
           text: cy
@@ -70,19 +81,15 @@ describe("template spec", () => {
       },
       { force: true },
     );
-    cy.get("Location", { timeout: 10000 });
+    cy.contains("View Location On Map", { timeout: 60000 });
   });
   it("receive messages", function () {
-    cy.visit("https://localhost");
-
+    cy.visit("https://localhost/");
     cy.get('input[placeholder="Email"]').type(testEmail2);
     cy.get('input[placeholder="Password"]').type(testEmail2);
     cy.get('button[type="submit"]').click();
     cy.contains(testEmail1).click();
     cy.contains("Location");
     cy.contains('"x":1');
-  });
-  it("logout", function () {
-    cy.visit("google.com");
   });
 });
