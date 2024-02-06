@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/dev-dist
 /tmp
 /out-tsc
 
@@ -90,5 +91,4 @@ lerna-debug.log
 .DS_Store
 Thumbs.db
 
-.env
 dist
