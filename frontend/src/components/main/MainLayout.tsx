@@ -12,6 +12,7 @@ export default function MainLayout() {
       {chatOverviews &&
         chatOverviews.map((chat) => (
           <ChatCard
+            componentEditable={false}
             name={chat.name}
             email={chat.email}
             lastmessage={chat.lastMessage}

@@ -95,7 +95,7 @@ export default function ChatScreen() {
         mx={"1"}
         px={"2"}
       >
-        <ChatCard name={name} email={email} />
+        <ChatCard name={name} email={email} componentEditable={true} />
         <ScrollArea scrollbars="vertical" mx={"2"} style={{ height: "80%" }}>
           <Box p="2" pr="8">
             <Messages />
