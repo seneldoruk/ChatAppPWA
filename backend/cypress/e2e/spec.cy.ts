@@ -1,4 +1,4 @@
-import { v4 as uuid } from "uuid";
+import {v4 as uuid} from "uuid";
 
 const user1 = uuid();
 const user2 = uuid();
@@ -14,7 +14,7 @@ let user2jwt = "";
 function request(body: object, jwt?: string) {
 	return cy.request({
 		method: "POST",
-		url: "http://localhost:8000/",
+		url: "https://localhost:8000/",
 		body: body,
 		failOnStatusCode: false,
 		headers: {

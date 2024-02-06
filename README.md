@@ -6,7 +6,8 @@ are and if they are even possible.
 
 ## Compatibility
 
-Not all Web APIs are implemented in all platforms and browsers. Below is the compatibility table compiled from [caniuse.com](https://caniuse.com/) for the relevant APIs.
+Not all Web APIs are implemented in all platforms and browsers. Below is the compatibility table compiled
+from [caniuse.com](https://caniuse.com/) for the relevant APIs.
 
 | Functionality      | Web API                                                                                                         |                           iOS                            |                                              Android                                               |
 |--------------------|-----------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------:|:--------------------------------------------------------------------------------------------------:|
@@ -19,27 +20,50 @@ Not all Web APIs are implemented in all platforms and browsers. Below is the com
 | Local Data Storage | [IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)                                 |                            ✅                             |                                                 ✅                                                  |
 | Biometric Auth     | [Web Authentication API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API)               |                            ✅                             |                                                 ✅                                                  |
 
-## Polyfills
+## Workarounds
 
-There are polyfills available for some of the Web APIs which is in the scope of this project to test.
-
-| Polyfill                                                                                   | For  | Notes                                                 |
-|--------------------------------------------------------------------------------------------|:----:|-------------------------------------------------------|
-| [Sensor APIs](https://github.com/kenchris/sensor-polyfills)                                | iOS  |                                                       |
-| [MediaStream Image Capture API](https://github.com/GoogleChromeLabs/imagecapture-polyfill) | iOS  | Instead used an \<input type="file" accept="image/"/> |
+| API                           | Workaround                                                                                                                                                                                 |
+|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Sensor APIs                   | [DeviceMotion and DeviOrientation](https://developer.mozilla.org/en-US/docs/Web/API/Device_orientation_events/Orientation_and_motion_data_explained) events are avaliable for all browsers |
+| MediaStream Image Capture API | Instead used an \<input type="file" accept="image/"/>                                                                                                                                      |
 
 ## Implementation in Practice
 
 | Functionality      |                                     Implemented in                                     | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 |--------------------|:--------------------------------------------------------------------------------------:|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Notifications      |            [notificationUtils.ts](frontend/src/utils/notificationUtils.ts)             | Sending notifications while the app is running is trivial. Notifications while the app is not running require [Push API](https://developer.mozilla.org/en-US/docs/Web/API/Push_API), which requires a Push Service and the permitted service depends on the browser. Just fetching data in the background without sending any notification requires [Web Periodic Background Synchronization API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Periodic_Background_Synchronization_API), which is experimental. |
-| Gyroscope          |                                                                                        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Geolocation        |    [useSpecialMessage.tsx](frontend/src/components/main/chat/useSpecialMessage.tsx)    | API is straightforward, no need to ask for permissions since it's automatically done when the getCurrentLocation function is called.                                                                                                                                                                                                                                                                                                                                                                                    |
+| Gyroscope          |         [shakeListener.ts](frontend/src/components/main/chat/shakeListener.ts)         | Testing the event is rather hard, a lot of people have unanswered questions on StackOverflow about the event not getting triggered on simulators, although this is specific to DeviceMotion if only current position is required and the rate of change isn't relevant, it wouldn't cause any problems                                                                                                                                                                                                                  |
+| Geolocation        |    [useSpecialMessage.tsx](frontend/src/components/mail/chat/useSpecialMessage.tsx)    | API is straightforward, no need to ask for permissions since it's automatically done when the getCurrentLocation function is called.                                                                                                                                                                                                                                                                                                                                                                                    |
 | Camera             | [SpecialMessageButton.tsx](frontend/src/components/main/chat/SpecialMessageButton.tsx) | API is a bit lower-level but there are [simpler abstractions](https://github.com/mabelanger/jslib-html5-camera-photo) available, and also [a react library](https://www.npmjs.com/package/react-html5-camera-photo). But just using an input with type="file" accepts="image/" and handling the rest with the File API is also possible and simpler.                                                                                                                                                                    |
 | Filesystem Access  |    [useSpecialMessage.tsx](frontend/src/components/main/chat/useSpecialMessage.tsx)    | Picking files with the API is simple but [Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob) and [Stream](https://developer.mozilla.org/en-US/docs/Web/API/Streams_API) APIs to handle the data seems more complicated. It likely won't be a problem when using [backend to get a signed link to upload the file to a bucket](https://www.apollographql.com/blog/file-upload-best-practices#approach-1-signed-url-uploads) like S3 and uploading the file to bucket from the client/frontend.                 |
 | Offline Usage      |                       [vite.config.ts](frontend/vite.config.ts)                        | Requires designing the app around not making network requests just to load initial data, which I've done using storing messages locally, and caching everything with the service worker. Also requires running the built (non-dev) server to work, which can be done with pnpm serve. [Vite PWA](https://vite-pwa-org.netlify.app/guide/) handles the service worker setup.                                                                                                                                             |
-| Local Data Storage |                   [idbUtils.ts](frontend/src/utils/idb/idbUtils.ts)                    | IndexedDB is a low-level API but there is a [small wrapper](https://github.com/jakearchibald/idb) and a [SQL-Like API](https://dexie.org/) available. SQL-Like API is heavier, which is a problem if bundle size is important, although looking at the length of idbUtils, using a higher level API makes sense and bundle size might matter less in a PWA setting, since it will be cached.                                                                                                                            |
+| Local Data Storage |                   [idbUtils.ts](frontend/src/utils/idb/idbUtils.ts)                    | IndexedDB is a low-level API but there is a [small wrapper](https://github.com/jakearchibald/idb) and a [SQL-Like API](https://dexie.org/) available. SQL-Like API is heavier, which is a problem if bundle size is important, although looking at the length of idbUtils, using a higher level API makes sense, and bundle size might matter less in a PWA setting, since it will be cached.                                                                                                                           |
 | Biometric Auth     |                                                                                        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+
+## Thoughts
+
+Overall, I don't think PWAs have good developer experience. APIs are implemented too inconsistently between platforms,
+OSs, browsers, versions, and if the site is accessed from the homepage or directly inside the browser. Documentation
+about the implementations isn't good either, I've different statuses for the same functions on "caniuse" and "mdn" (in
+that case, caniuse is probably the correct one). Documentations in general are scarce.
+
+Debugging is a bit complicated too. A PWA must be tested in different combinations of OSs, platforms, and so on due to
+the inconsistencies of implementations. But since PWA and many of its APIs require connections over https, that must be
+somehow enabled too. But other devices in the network, that can't access the app through "localhost" (including iOS
+environment simulated by Xcode) won't trust a self-signed certificate. Even if the frontend is somehow trusted,
+connections to the backend are somehow not. So just to be able to test the app correctly, you need to have a proper TLS
+certificate (or figure out a way to make the browser accept the certificate) and maybe deploy the app to a trusted
+domain.
+
+Due to these reasons, I don't think choosing PWAs for cross-platform development over e.g. React Native makes sense for
+a lot of use cases. If a responsive SPA is already built with an architecture that doesn't need many network calls, it
+would be trivial to turn that app into a PWA, cache assets, and use some of the APIs that are dependent on Service
+Workers. But this is about the only use case I can think of for the developer experience.
+
+Adobe has compiled a list of [PWAs done right](https://business.adobe.com/blog/basics/progressive-web-app-examples).
+Only in one of the 12 examples the PWA is designed as the "main" way of interacting with the product. All the other
+PWAs are "lite" versions of the real app, created for its lower resource (including network) usage, so aimed at
+accessibility rather than DX. Which might make sense for an established app trying to increase its reach.
 
 ## Helpful Articles
 
@@ -57,6 +81,7 @@ PWAs
 WebAuth
 
 - [Guide to Web Authentication](https://webauthn.guide/)
+- [Meet Face ID and Touch ID for the Web](https://webkit.org/blog/11312/meet-face-id-and-touch-id-for-the-web/)
 
 Gyroscope
 

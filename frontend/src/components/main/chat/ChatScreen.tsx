@@ -1,9 +1,9 @@
 import {
-  ScrollArea,
   Box,
-  Flex,
-  TextFieldInput,
   Button,
+  Flex,
+  ScrollArea,
+  TextFieldInput,
 } from "@radix-ui/themes";
 import ChatCard from "../ChatCard";
 import useChatStore from "../../../state/chatStore";
@@ -32,7 +32,7 @@ async function putNewMessageInDBAndUpdateState(
     theirEmail: toEmail,
   });
   const messages = await getMessagesWithPagingForEmail(db, toEmail, 0, 10);
-  const mappedMessages = messages
+  return messages
     .map((message) => ({
       content: message.message,
       sender: message.sentBy,
@@ -40,7 +40,6 @@ async function putNewMessageInDBAndUpdateState(
     }))
     .sort()
     .reverse();
-  return mappedMessages;
 }
 
 export default function ChatScreen() {

@@ -1,13 +1,13 @@
-import { Popover, Button, Flex } from "@radix-ui/themes";
+import { Button, Flex, Popover } from "@radix-ui/themes";
 import {
   CameraIcon,
-  FileIcon,
   FileTextIcon,
   GlobeIcon,
   PlusIcon,
 } from "@radix-ui/react-icons";
 import useSpecialMessage from "./useSpecialMessage";
 import { IconButtonWithExplanation } from "./IconButtonWithExplanation";
+
 type Props = {
   disabled: boolean;
   sendMessageFunction: (data: { message: string }) => Promise<unknown>;

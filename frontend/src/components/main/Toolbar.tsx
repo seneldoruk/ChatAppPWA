@@ -10,9 +10,13 @@ import ChatAppIcon from "../../assets/ChatAppIcon";
 import NewChat from "./NewChat";
 import useChatStore from "../../state/chatStore";
 import { Cross1Icon } from "@radix-ui/react-icons";
+import { checkPermissionAndListen } from "./chat/shakeListener.ts";
+
 export default function Toolbar() {
   const activeChatScreen = useChatStore((state) => state.activeChatScreen);
   const closeChat = useChatStore((state) => state.closeChatScreen);
+
+  checkPermissionAndListen(closeChat);
   return (
     <Container p="1" mt="4" mb="1" px="3">
       <Flex justify={"between"}>

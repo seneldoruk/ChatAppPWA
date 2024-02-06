@@ -1,14 +1,4 @@
-import { GlobeIcon } from "@radix-ui/react-icons";
-import {
-  Text,
-  HoverCard,
-  Link,
-  Flex,
-  Avatar,
-  Box,
-  Heading,
-  Button,
-} from "@radix-ui/themes";
+import { Button, HoverCard, Text } from "@radix-ui/themes";
 import { PropsWithChildren } from "react";
 
 type Props = {
