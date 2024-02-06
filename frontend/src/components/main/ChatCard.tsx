@@ -8,14 +8,13 @@ import {
   IconButton,
 } from "@radix-ui/themes";
 import useChatStore from "../../state/chatStore";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { CheckIcon } from "@radix-ui/react-icons";
 import {
   getDatabase,
   getOverviews,
   setNameForEmail,
 } from "../../utils/idb/idbUtils";
-import { set } from "zod";
 
 type Props = {
   name: string;

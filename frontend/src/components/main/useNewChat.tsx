@@ -13,7 +13,7 @@ import {
 } from "../../utils/idb/idbUtils";
 
 export default function useNewChat() {
-  const [sendMessage, { loading, error, reset }] = useMutation(SEND_MESSAGE);
+  const [sendMessage, { loading, error }] = useMutation(SEND_MESSAGE);
   const newChatSchena = z.object({
     name: z.string().min(1, { message: "Name can't be empty" }),
     email: z.string().email({ message: "Invalid Email" }),

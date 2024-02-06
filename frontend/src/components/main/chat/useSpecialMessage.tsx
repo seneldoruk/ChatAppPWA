@@ -30,7 +30,7 @@ export default function useSpecialMessage({ sendMessageFunction }: Props) {
 
   async function sendJSFile() {
     setLoading("file");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const pickerOpts = {
       types: [
         {
