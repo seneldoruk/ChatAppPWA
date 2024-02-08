@@ -8,6 +8,8 @@ import express from 'express';
 // @ts-ignore
 import https from "https-localhost";
 import jwt from "jsonwebtoken";
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 const app = https()
 
@@ -36,5 +38,6 @@ app.use('/', cors<cors.CorsRequest>(), express.json(), expressMiddleware(server,
 }));
 app.listen(8000).then(() => {
     console.log('🚀 Server ready at', `https://localhost:8000/`);
+    console.log('Connected to DB at', process.env.DATABASE_URL)
 })
 

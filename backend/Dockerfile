@@ -1,12 +1,12 @@
-FROM node:18.16.0-alpine3.17
+FROM  jitesoft/node-yarn:20-slim
+
 RUN mkdir /app
 WORKDIR /app
 COPY ./src ./src
 COPY ./prisma ./prisma
 COPY ./tsconfig.json .
-COPY ./package.json ./pnpm-lock.yaml ./
-RUN npm install -g pnpm
-RUN pnpm install  --prod
-RUN pnpm prisma db push
+COPY ./package.json ./yarn.lock ./
+
+RUN yarn install --production
 EXPOSE 8000
-CMD [ "pnpm", "start"]
+CMD ["yarn", "run", "start-docker"]
