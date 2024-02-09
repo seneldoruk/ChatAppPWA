@@ -18,18 +18,4 @@ spec:
           env:
             - name: VITE_BACKEND_URL
               value: "local.dev/graphql"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: frontend-srv
-spec:
-  selector:
-    app: frontend
-  ports:
-    - name: frontend
-      protocol: TCP
-      port: 80
-      targetPort: 80
 
-    
