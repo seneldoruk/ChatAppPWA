@@ -9,4 +9,4 @@ COPY ./package.json ./yarn.lock ./
 
 RUN yarn install --production
 EXPOSE 8000
-CMD ["yarn", "run", "start-docker"]
+CMD ["yarn",  "start-docker"]

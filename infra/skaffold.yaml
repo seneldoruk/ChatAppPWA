@@ -1,0 +1,17 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+    - ./k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: seneldoruk/chatapppwa-backend
+      context: ../backend
+      docker:
+        dockerfile: Dockerfile
+    - image: seneldoruk/chatapppwa-frontend
+      context: ../frontend
+      docker:
+        dockerfile: Dockerfile
