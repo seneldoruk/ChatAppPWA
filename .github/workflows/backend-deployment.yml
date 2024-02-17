@@ -1,0 +1,19 @@
+name: Deploy backend
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["master"]
+    paths:
+      - 'backend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+        - run: cd backend && docker build -t seneldoruk/chatapppwa-backend .
+        - run: docker login -u seneldoruk -p  $DOCKER_PASSWORD 
+          env: 
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        - run: docker push seneldoruk/chatapppwa-backend
