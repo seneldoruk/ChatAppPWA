@@ -1,24 +1,24 @@
-name: Deploy backend
+name: Deploy frontend
 
 on:
   workflow_dispatch:
   push:
     branches: ["master"]
     paths:
-      - "backend/**"
+      - "frontend/**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd backend && docker build -t seneldoruk/chatapppwa-backend .
+      - run: cd frontend && docker build -t seneldoruk/chatapppwa-frontend .
       - run: docker login -u seneldoruk -p  $DOCKER_PASSWORD
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker push seneldoruk/chatapppwa-backend
+      - run: docker push seneldoruk/chatapppwa-frontend
       - uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - run: doctl kubernetes cluster kubeconfig save daeb0d0b-9a15-44bf-a4bc-c65389f8da9b
-      - run: kubectl rollout restart deployment backend-depl
+      - run: kubectl rollout restart deployment frontend-depl
