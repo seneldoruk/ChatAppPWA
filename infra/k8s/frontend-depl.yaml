@@ -14,8 +14,4 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: seneldoruk/chatapppwa-frontend
-          env:
-            - name: VITE_BACKEND_URL
-              value: "local.dev/graphql"
-
+          image: seneldoruk/chatapppwa:frontend

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: seneldoruk/chatapppwa-backend
+          image: seneldoruk/chatapppwa:backend
           env:
             - name: DATABASE_URL
               value: "postgresql://user:password@postgres-srv:5432/mydb?schema=public"

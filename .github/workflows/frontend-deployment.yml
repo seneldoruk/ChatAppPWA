@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd frontend && docker build -t seneldoruk/chatapppwa-frontend .
+      - run: cd frontend && docker build -t seneldoruk/chatapppwa:frontend .
       - run: docker login -u seneldoruk -p  $DOCKER_PASSWORD
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker push seneldoruk/chatapppwa-frontend
+      - run: docker push seneldoruk/chatapppwa:frontend
       - uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
