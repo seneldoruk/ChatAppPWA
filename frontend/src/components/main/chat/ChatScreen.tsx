@@ -43,7 +43,7 @@ async function putNewMessageInDBAndUpdateState(
 }
 
 export default function ChatScreen() {
-  const { register, handleSubmit, setValue } = useForm<{
+  const { register, handleSubmit, reset } = useForm<{
     message: string;
   }>({});
   const [sendMessage, { loading, error }] = useMutation(SEND_MESSAGE);
@@ -63,9 +63,9 @@ export default function ChatScreen() {
         data.message,
       );
       setCurrentMessages(messages);
+      reset();
       return messages;
     }
-    setValue("message", "");
     return Promise.resolve();
   };
 

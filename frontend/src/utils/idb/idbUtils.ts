@@ -63,13 +63,7 @@ async function getMessagesForEmail(db: IDBPDatabase<unknown>, email: string) {
 }
 
 async function addMessage(db: IDBPDatabase<unknown>, message: messageInDB) {
-  const messageInDB = await db.get("messages", [
-    message.timestamp,
-    message.theirEmail,
-  ]);
-  if (!messageInDB) {
-    await db.add("messages", message);
-  }
+  return await db.add("messages", message);
 }
 
 /*

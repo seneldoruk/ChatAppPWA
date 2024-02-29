@@ -57,6 +57,10 @@ async function getLatestMessagesFromDB(email: string) {
 export default function useIndexedDB() {
   const chatOverviews = useChatStore((state) => state.chatOverviews);
   const setChatOverviews = useChatStore((state) => state.setChatOverviews);
+  const setActiveMessages = useChatStore((state) => state.setActiveMessages);
+  const currentChatEmail = useChatStore(
+    (state) => state.activeChatScreen,
+  )?.email;
   if (!chatOverviews) {
     getOverviewsFromDB().then((chatOverviews) => {
       useChatStore.setState({ chatOverviews });
@@ -66,14 +70,27 @@ export default function useIndexedDB() {
   const { data } = useQuery(GET_MESSAGES, {
     pollInterval: 5000,
   });
-  const newMessages = data?.getMessages;
 
-  const currentChat = useChatStore((state) => state.activeChatScreen);
   useEffect(() => {
+    const newMessages = data?.getMessages;
     if (newMessages) {
-      setNewMessagesToDB(newMessages).then((overviewFromDB) =>
-        setChatOverviews(overviewFromDB),
-      );
+      setNewMessagesToDB(newMessages).then((overviewFromDB) => {
+        setChatOverviews(overviewFromDB);
+        if (currentChatEmail && affectedEmails.has(currentChatEmail)) {
+          getLatestMessagesFromDB(currentChatEmail).then((messages) => {
+            const mappedMessages: MessageProps[] = messages
+              .map((message) => {
+                return {
+                  sender: message.sentBy,
+                  date: message.timestamp,
+                  content: message.message,
+                };
+              })
+              .reverse();
+            setActiveMessages(mappedMessages);
+          });
+        }
+      });
       const affectedEmails = new Set<string>(
         newMessages.map((m) => m.fromEmail),
       );
@@ -81,23 +98,9 @@ export default function useIndexedDB() {
         "You Have New Messages",
         `From ${affectedEmails.size} chats!`,
       );
-      if (currentChat && affectedEmails.has(currentChat?.email)) {
-        getLatestMessagesFromDB(currentChat.email).then((messages) => {
-          const mappedMessages: MessageProps[] = messages
-            .map((message) => {
-              return {
-                sender: message.sentBy,
-                date: message.timestamp,
-                content: message.message,
-              };
-            })
-            .reverse();
-          useChatStore.setState({ activeMessages: mappedMessages });
-        });
-      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newMessages]);
+  }, [data]);
 
   return { chatOverviews };
 }
