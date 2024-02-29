@@ -20,3 +20,5 @@ spec:
               value: "postgresql://user:password@postgres-srv:5432/mydb?schema=public"
             - name: JWT_KEY
               value: "mysecretkey"
+      imagePullSecrets:
+        - name: regcred

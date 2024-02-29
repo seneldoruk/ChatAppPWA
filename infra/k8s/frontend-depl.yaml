@@ -15,3 +15,5 @@ spec:
       containers:
         - name: frontend
           image: seneldoruk/chatapppwa:frontend
+      imagePullSecrets:
+        - name: regcred
