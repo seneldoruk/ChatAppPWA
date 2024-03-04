@@ -17,5 +17,6 @@ export function showNotification(title: string, body: string) {
         icon: "/favicon.png",
       });
     });
+    new Notification(body);
   }
 }
